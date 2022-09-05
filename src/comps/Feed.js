@@ -1,8 +1,11 @@
 import { Container, Typography, Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserRequests from "./UserRequests";
-
+import { getRequestFromFirebase } from "../services/firebase";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import { db } from "../services/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import Loading from "../Loading/Loading";
 const Feed = () => {
   return (
     <Container
