@@ -29,7 +29,7 @@ const SuccessRequest = ({ requests, loading }) => {
     <div>
       <Box sx={{ padding: "20px" }}>
         <Typography sx={{ fontWeight: 500 }}>
-          {success.length} pending requests found
+          {success?.length} pending requests found
         </Typography>
       </Box>
       {success?.map((request, key) => {

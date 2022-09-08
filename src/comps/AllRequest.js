@@ -35,6 +35,7 @@ const AllRequest = ({ requests, loading }) => {
                   profileUrl={"V"}
                   key={key}
                   id={request.id}
+                  companyId={request?.companyId}
                 />
               );
             })}

@@ -35,6 +35,7 @@ const CardComp = ({
   status,
   companyName,
   id,
+  companyId,
 }) => {
   const [openAcceptModal, setOpenAcceptModal] = React.useState(false);
   const handleAcceptModalOpen = () => setOpenAcceptModal(true);
@@ -46,6 +47,7 @@ const CardComp = ({
 
   // Create formatter (English).
 
+  console.log({ requests });
   const addVerifiedCompany = async (index) => {
     setTempLoading(true);
     try {
@@ -55,6 +57,7 @@ const CardComp = ({
       const payload = { ...requests[index], status: "success" };
       await addDoc(collectionRef, payload);
       await updateDoc(docRef, { ...payload, status: "success" });
+      await addDoc(collection(db, "verifiedCompanies"), { companyId });
       setTempLoading(false);
       handleAcceptModalClose();
     } catch (err) {
@@ -67,8 +70,9 @@ const CardComp = ({
     setTempLoading(true);
     try {
       const currentDocId = requests[index].id;
+      const payload = { ...requests[index], status: "rejected" };
       const docRef = doc(db, "requests", currentDocId);
-      await deleteDoc(docRef);
+      await updateDoc(docRef, payload);
       setTempLoading(false);
       handleDeclineModalClose();
     } catch (err) {
@@ -96,7 +100,9 @@ const CardComp = ({
           loading ? (
             <Skeleton variant="circular" width={50} height={50} />
           ) : (
-            <Avatar sx={{ backgroundColor: "black" }}>{profileUrl}</Avatar>
+            <Avatar sx={{ backgroundColor: "black" }}>
+              {companyName.charAt(0).toUpperCase()}
+            </Avatar>
           )
         }
         title={
